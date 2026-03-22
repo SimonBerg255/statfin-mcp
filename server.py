@@ -10,7 +10,7 @@ import client
 # ---------------------------------------------------------------------------
 
 icon = Icon(
-    src="https://raw.githubusercontent.com/inoo-labs/statfin-mcp/main/statfin_logo.png",
+    src="https://raw.githubusercontent.com/SimonBerg255/statfin-mcp/main/statfin_logo.png",
 )
 
 INSTRUCTION_STRING = (
