@@ -1,8 +1,10 @@
 # StatFin MCP Server
 
-An MCP (Model Context Protocol) server that wraps Statistics Finland's [StatFin](https://statfin.stat.fi/) database as structured tools for AI assistants.
+An MCP server that gives AI assistants direct access to Statistics Finland's [StatFin](https://statfin.stat.fi/) database — thousands of official Finnish statistical tables covering population, employment, economy, housing, education, health, and more.
 
-StatFin is Finland's official open statistical database, powered by PxWeb. It contains thousands of tables covering population, employment, economy, housing, education, and more. All data is freely available under CC BY 4.0.
+Built on the PxWeb REST API. No API key needed. All data is open and licensed under CC BY 4.0.
+
+The server handles the full workflow: browsing the folder tree, searching for tables, inspecting variable codes, validating query size against rate limits, and fetching parsed data — so the AI never has to guess codes or risk oversized requests.
 
 ## Tools
 
@@ -22,8 +24,6 @@ StatFin is Finland's official open statistical database, powered by PxWeb. It co
 
 ## How it works
 
-StatFin uses a browse → inspect → query workflow:
-
 1. **Browse or search** to find a table (`statfin_browse_folders`, `statfin_search_tables`)
 2. **Inspect** the table to see its variables and value codes (`statfin_get_table_info`)
 3. **Test** the selection size to stay under the 100,000 cell limit (`statfin_test_selection`)
@@ -38,29 +38,6 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn server:app --host 0.0.0.0 --port 8000
 ```
-
-Verify the server is running:
-
-```bash
-curl http://localhost:8000/health
-```
-
-## Connecting to Intric
-
-1. Deploy to Railway (or run locally)
-2. In Intric: Settings → Integrations → MCP Servers → Add
-3. URL: `https://your-domain.railway.app/sse`
-4. Test: ask a question like "What is the population of Helsinki?"
-
-## Deploy to Railway
-
-The repo includes a `Procfile` and `runtime.txt` for Railway deployment:
-
-```
-web: uvicorn server:app --host 0.0.0.0 --port $PORT
-```
-
-No environment variables are needed — the API is fully public with no authentication.
 
 ## API details
 
